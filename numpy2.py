@@ -299,7 +299,7 @@ print( res2 )
 print("\n")
 
 
-#Try concatenation with matrices. Here we will need to use axis 0 or 1 to indicate 
+# 21 Try concatenation with matrices. Here we will need to use axis 0 or 1 to indicate 
 # on what dimension to concatenate.
 #concatenate them on axis 0. 
 #given the following 2 matrices
@@ -318,9 +318,224 @@ print( matrix1 )
 print("\n")
 #The result should look like this
 res1 = np.concatenate((matrix, matrix1), axis=0)
-
 print( res1 )
-
 res2 = np.concatenate((matrix, matrix1), axis=1)
-
 print( res2 )
+print("\n")
+
+# 22 Another approach to concatenate matrices is using hstack and vstack.
+
+a =   np.array(   [1, 2, 3, 4]  )
+b =   np.array(   [5, 6, 7, 8]  )
+c =   np.array(   [9, 10, 11]  )
+
+print( np.vstack((a,b)) )
+print( np.hstack((a,b)) )
+print("\n")
+
+#23 Math operations using numpy
+x = np.array( [1, 2, 3, 4] )
+print(x + 10)
+print(x * 10)
+print(x / 2)
+print(-x)
+print(x ** 3 )
+print(np.log(x))
+print(np.log2(x) )
+print(np.log10(x))
+print("\n")
+
+
+# 24 Implement f(x) = x³ - 3x² + 7 using math operators
+# Create array of x values for plotting
+x = np.linspace(-5, 5, 100)  # Creates 100 points between -5 and 5
+
+# Calculate f(x) = x³ - 3x² + 7
+y = np.power(x, 3) - 3*np.power(x, 2) + 7
+
+# Print some sample points
+print("Sample points (x, f(x)):")
+for i in range(0, len(x), 20):  # Print every 20th point
+    print(f"x = {x[i]:.2f}, f(x) = {y[i]:.2f}")
+
+plt.figure(figsize=(10, 6))
+plt.plot(x, y)
+plt.grid(True)
+plt.title('f(x) = x³ - 3x² + 7')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
+plt.show()
+print("\n")
+
+# 25 Trigonometric functions like sines and coses are available in Numpy
+# as can be seen here. Interestingly, sines and coses are used 
+# in transformation models to capture the sequence of words in sentences.
+
+a = np.array( [0. ,        0.44444444, 0.88888889, 1.33333333, 1.77777778, 2.22222222,
+                2.66666667, 3.11111111, 3.55555556, 4.        ] )
+
+print( a )
+
+print( np.sin(a) )
+
+# 26 The following code allows you to plot sine and cosine waves
+# Change the number values of samples generated and note the change in the produced image.
+
+position = torch.arange(0, 90, dtype=torch.float) ##.unsqueeze(1)
+
+res = torch.sin(  position )
+res2 = torch.cos( position )
+
+plt.plot  (position, res,  label = "sine", color='blue') 
+plt.plot(  position, res2, label = "cos", color='red') 
+plt.legend() 
+plt.grid(True)  # Added grid for better visualization
+plt.title('Sine and Cosine Waves')
+plt.xlabel('Position')
+plt.ylabel('Value')
+plt.show()
+
+#27 numpy aggregate functions
+#aggregates in numpy are ways in which you can perform an operation 
+# and reduce the result 
+#much like torch.reduce_sum() in pytorch. Below are aggregte functions 
+
+x = np.array( [1, 2, 3, 4, 5] )
+print(x)  
+print(np.add.reduce(x) )
+print(np.multiply.reduce(x) )
+print(np.sum(x))
+print(np.min(x))
+print(np.max(x) )
+print("\n")
+
+
+#28 numpy min and max functions
+#sometimes it is useful to extract minimum and maximum values across dimentions.
+# we can do that using np.min np.sum etc.
+m = np.array(
+                                  [[ 1,  2,  3,  4],
+                                   [ 5, 6,  7,  8],
+                                   [ 9, 10, 11, 12],
+                                   [13, 14, 15, 16]]
+)
+print(m)
+print(m.sum())
+print(np.min(m, axis=0))
+print(np.min(m, axis=1))
+print(np.min(m, axis=-1))
+print("\n")
+
+#Broadcasting  is one of the extremely useful concept in numpy and pytorch.
+#Broadcasting allows you to perform an operation element wise between matrices 
+# and vectors when all we want is a smaller numpy array to be repeated.
+
+#Transformers rely heaviliy on broadcasting. 
+
+m = np.array(
+    [[1., 1., 1.],
+     [1., 1., 1.],
+     [1., 1., 1.]]
+)
+
+print(m)
+
+a = np.array(
+    [0, 1, 2]
+)
+
+print(a)
+print(m+a)
+
+#Example broacasting
+a = a[:, np.newaxis]
+print(a)
+print(m+a)
+
+#Example broacasting
+v1 = np.array( [1, 1, 1] )
+print(v1)
+
+v2 =  np.array( [[0],
+                 [1],
+                 [2]]
+              )
+print(v2)
+
+print(v1+v2)
+
+print(v1*v2)
+print(m)
+
+zz = v1*v2
+
+print(zz)
+
+print(m*zz)
+
+#Example broacasting
+v1 = np.array(  [1, 1, 1],
+             
+             )
+print(v1)
+
+v1 = v1[ :, np.newaxis]
+
+print(v1.shape)
+
+v2 = np.array( [0, 1, 2])
+print( v2.shape )
+
+v2 = v2[np.newaxis, :]
+print( v2.shape )
+
+print(v1*v2)
+
+print(v1+v2)
+
+
+## Example broadcasting 
+#create a matrix m of size 150X4 with random data. Assume that you also have a vector
+#mean of size 1X4. perform a broadcast opperation that would let you scale the data 
+#with following equation
+#m_scaled = m - mean
+
+
+# Create a 150x4 matrix with random data using numpy
+m = np.random.randn(150, 4)
+
+# Create a 1x4 mean vector (calculated as mean along columns)
+mean = np.mean(m, axis=0)  # This gives us a vector of size 1x4
+# Alternative: create custom mean vector
+# mean = np.array([1, 2, 3, 4])
+
+# Print shapes to understand the broadcasting
+print("Matrix shape:", m.shape)      # (150, 4)
+print("Mean shape:", mean.shape)     # (4,)
+
+# Perform broadcasting subtraction
+m_scaled = m - mean
+
+# Verify the operation
+print("\nOriginal matrix first row:", m[0])
+print("Mean vector:", mean)
+print("Scaled matrix first row:", m_scaled[0])
+
+# Verify shapes remain correct
+print("\nScaled matrix shape:", m_scaled.shape)  # Should still be (150, 4)
+
+
+# Create a 150x4 matrix with random data using pytorch
+m = torch.randn(150, 4)
+
+# Create mean vector
+mean = torch.mean(m, dim=0)  # Calculate mean along columns
+
+# Perform broadcasting subtraction
+m_scaled = m - mean
+
+print("Matrix shape:", m.shape)
+print("Mean shape:", mean.shape)
+print("Scaled matrix shape:", m_scaled.shape)
